@@ -1,0 +1,92 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 01/29/2026 05:12:30 PM
+-- Design Name: 
+-- Module Name: ha_tb - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity ha_tb is
+--  Port ( );
+end ha_tb;
+
+architecture Behavioral of ha_tb is
+
+component ha is  Port ( 
+        a : in std_logic;
+        b : in std_logic;
+        sum : out std_logic;
+        carry : out std_logic);
+end component;
+
+signal a_tb, b_tb, sum_tb, carry_tb : std_logic;
+        
+begin
+    uut : ha port map(a => a_tb,
+                      b => b_tb,
+                      sum => sum_tb,
+                      carry => carry_tb);
+                      
+    tb : process
+    
+         constant period: time := 20 ns;
+         
+         begin
+         
+         
+            a_tb <= '0';
+            b_tb <= '0';
+            wait for period;
+            assert(( carry_tb = '0') and (sum_tb = '0'))
+            report "===> Test faled for input combination 00 <==="
+            severity error;
+            
+            a_tb <= '0';
+            b_tb <= '1';
+            wait for period;
+            assert(( carry_tb = '0') and (sum_tb = '1'))
+            report "===> Test faled for input combination 01 <==="
+            severity error;
+            
+            a_tb <= '1';
+            b_tb <= '0';
+            wait for period;
+            assert(( carry_tb = '1') and (sum_tb = '0'))
+            report "===> Test faled for input combination 10 <==="
+            severity error;
+            
+            a_tb <= '1';
+            b_tb <= '1';
+            wait for period;
+            assert(( carry_tb = '1') and (sum_tb = '1'))
+            report "===> Test faled for input combination 11 <==="
+            severity error;
+            
+            wait;
+            end process;
+end Behavioral;
